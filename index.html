@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ona Tili - Professional Viktorina Pro Ultra 100k</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        @keyframes pop { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.03); } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes pulseGlow { 0%, 100% { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 0 25px rgba(245, 158, 11, 0.3); } 50% { border-color: rgba(245, 158, 11, 1); box-shadow: 0 0 40px rgba(245, 158, 11, 0.7); } }
+        @keyframes floatAvatar { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+        @keyframes blinkEye { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+        @keyframes talkMouth { 0%, 100% { height: 4px; } 50% { height: 12px; } }
+        .animate-pop { animation: pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-glow { animation: pulseGlow 0.6s infinite; }
+        .avatar-float { animation: floatAvatar 3.5s ease-in-out infinite; }
+        .avatar-eye { animation: blinkEye 4s infinite; transform-origin: center; }
+        .talking { animation: talkMouth 0.2s infinite alternate; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+        ::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 selection:bg-amber-500 selection:text-slate-950 relative overflow-x-hidden">
+
+    <!-- AI Yordamchi 3D Avatar (Jonli) -->
+    <div id="ai-assistant" class="fixed bottom-6 right-6 z-40 flex items-end gap-3 avatar-float">
+        <div id="ai-bubble" class="bg-slate-900/95 border border-amber-500/50 text-slate-100 text-xs px-4 py-3 rounded-2xl shadow-2xl max-w-[230px] backdrop-blur-xl relative font-medium leading-relaxed">
+            Salom, janob! Men sizning shaxsiy AI yordamchingizman. 100% tayyormiz! 🎯
+        </div>
+        
+        <div class="w-16 h-16 bg-gradient-to-tr from-amber-600 via-yellow-500 to-amber-300 rounded-2xl p-0.5 shadow-2xl shadow-amber-500/40 border border-amber-200 flex flex-col items-center justify-center relative cursor-pointer group hover:scale-105 transition" onclick="aiGreet()">
+            <div class="w-full h-full bg-slate-900 rounded-[14px] flex flex-col items-center justify-center relative overflow-hidden">
+                <!-- Soch / Kepka -->
+                <div class="w-10 h-3.5 bg-gradient-to-r from-amber-500 to-yellow-400 rounded-t-full absolute top-0.5 shadow-sm"></div>
+                <!-- Ko'zlar -->
+                <div class="flex gap-2.5 mt-1.5">
+                    <div class="w-3 h-3 bg-amber-400 rounded-full avatar-eye flex items-center justify-center shadow-inner">
+                        <div class="w-1 h-1 bg-slate-950 rounded-full"></div>
+                    </div>
+                    <div class="w-3 h-3 bg-amber-400 rounded-full avatar-eye flex items-center justify-center shadow-inner">
+                        <div class="w-1 h-1 bg-slate-950 rounded-full"></div>
+                    </div>
+                </div>
+                <!-- Og'iz -->
+                <div id="ai-mouth" class="w-4 h-1.5 bg-amber-400 rounded-full mt-2 transition-all"></div>
+                <!-- Kostyum -->
+                <div class="absolute bottom-0 w-8 h-2.5 bg-indigo-600 rounded-t-lg border-t border-indigo-400"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asosiy Dastur Paneli -->
+    <div class="w-full max-w-xl bg-slate-900/90 backdrop-blur-2xl border border-slate-800 rounded-3xl shadow-2xl p-6 my-auto relative overflow-hidden">
+        
+        <!-- Sarlavha -->
+        <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-inner">⚡</div>
+                <div>
+                    <h1 class="font-extrabold text-sm text-white tracking-wide">Viktorina Pro Ultra</h1>
+                    <p class="text-[10px] text-amber-400 font-semibold tracking-wider uppercase">100% Interaktiv Tizim</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button onclick="toggleScoresModal(true)" class="bg-slate-800/90 hover:bg-slate-700 text-amber-400 border border-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm active:scale-95">
+                    🏆 Reyting
+                </button>
+                <div class="flex items-center gap-1.5 bg-slate-800/50 px-3.5 py-2 rounded-xl border border-slate-700">
+                    <span class="text-[11px] text-slate-400">Ball:</span>
+                    <span id="score" class="font-extrabold text-amber-400 text-xs">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1-Bosqich: Sozlamalar va Ism kiritish -->
+        <div id="setup-screen" class="animate-pop space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">📌 O'tiladigan yoki so'raladigan mavzu:</label>
+                <input type="text" id="topic-input" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner" placeholder="Masalan: Fonetika, Imlo, E harfi, Tarix...">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">⏱️ Vaqt rejimi:</label>
+                    <select id="timer-setting" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner">
+                        <option value="15">15 soniya (Tezkor)</option>
+                        <option value="30">30 soniya (O'rta)</option>
+                        <option value="0">Cheksiz vaqt</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">🔊 Ovozli yordam:</label>
+                    <select id="voice-setting" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner">
+                        <option value="on">Yoqilgan (Ovozli)</option>
+                        <option value="off">O'chirilgan</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">✍️ O'quvchilar ismini qo'shish:</label>
+                <div class="flex gap-2">
+                    <input type="text" id="student-name-input" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner" placeholder="O'quvchi ismi..." onkeypress="handleKeyPress(event)">
+                    <button onclick="addStudent()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-5 rounded-2xl transition text-lg shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center">+</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-[11px] text-slate-400 font-medium">Qo'shilgan o'quvchilar (<span id="student-count" class="text-amber-400 font-bold">0</span>):</span>
+                    <button onclick="clearAllStudents()" class="text-[10px] text-rose-400 hover:text-rose-300 font-semibold transition">Barchasini tozalash</button>
+                </div>
+                <div id="students-list-container" class="bg-slate-950 border border-slate-800 rounded-2xl p-3 min-h-[70px] max-h-[110px] overflow-y-auto flex flex-wrap gap-2">
+                    <span class="text-slate-500 text-xs italic py-2 px-1">Hali o'quvchilar qo'shilmadi...</span>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-extrabold py-4 rounded-2xl transition text-xs shadow-xl shadow-amber-500/25 active:scale-[0.99] mt-2">
+                🚀 Viktorinani Boshlash (100% Pro)
+            </button>
+        </div>
+
+        <!-- 2-Bosqich: O'yin Ekrani -->
+        <div id="quiz-screen" class="hidden animate-pop space-y-4">
+            <div class="flex gap-3">
+                <div id="student-box" class="flex-1 bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-center transition-all duration-300 shadow-inner">
+                    <div class="text-[9px] text-slate-400 uppercase tracking-widest font-bold mb-0.5">Navbatdagi o'quvchi:</div>
+                    <div id="current-student" class="text-base font-extrabold text-amber-400 tracking-wide">Ism...</div>
+                </div>
+                <div id="timer-box" class="w-24 bg-slate-950 border border-slate-800 rounded-2xl p-3 flex flex-col items-center justify-center shadow-inner">
+                    <div class="text-[9px] text-slate-400 uppercase font-bold mb-0.5">Vaqt</div>
+                    <div id="timer-display" class="text-base font-extrabold text-amber-400">15s</div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center text-xs text-slate-400 bg-slate-950 px-3.5 py-2.5 rounded-xl border border-slate-800">
+                <span id="question-count" class="font-bold text-slate-200">Savol: 1/5</span>
+                <span id="quiz-category" class="bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-lg font-semibold border border-amber-500/20">Mavzu</span>
+            </div>
+            
+            <h3 id="question-text" class="text-sm font-semibold min-h-[60px] leading-relaxed text-slate-100 bg-slate-950/40 p-3.5 rounded-2xl border border-slate-800/80">Savol matni...</h3>
+            
+            <div id="options-container" class="space-y-2.5"></div>
+
+            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3.5 rounded-2xl transition text-xs shadow-lg shadow-amber-500/25">
+                Keyingi o'quvchi va savol ➡️
+            </button>
+        </div>
+
+        <!-- Natija Ekrani -->
+        <div id="result-screen" class="hidden text-center py-6 animate-pop space-y-4">
+            <div class="text-6xl mb-1 animate-bounce">🏆</div>
+            <h2 class="text-xl font-extrabold text-white">Tabriklayman, janob!</h2>
+            <p class="text-xs text-slate-400">Barcha bosqichlar ajoyib yakunlandi</p>
+            
+            <div class="bg-gradient-to-r from-amber-500/20 via-indigo-500/20 to-amber-500/20 border border-amber-500/40 rounded-2xl p-4 max-w-xs mx-auto shadow-inner">
+                <div class="text-[11px] text-amber-300 font-bold mb-1">🥇 Eng yuqori natija egasi</div>
+                <div id="winner-name-score" class="text-lg font-extrabold text-white">Ism — 0 ball</div>
+            </div>
+
+            <button onclick="goHome()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold py-3.5 rounded-2xl transition text-xs shadow-lg shadow-amber-500/25">
+                🔄 Yangi viktorina boshlash
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Reyting Modali -->
+    <div id="scores-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-pop">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl relative space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="text-sm font-extrabold text-amber-400 flex items-center gap-2">🏆 O'quvchilar Reytingi</h3>
+                <button onclick="toggleScoresModal(false)" class="text-slate-400 hover:text-white font-bold text-lg w-7 h-7 flex items-center justify-center rounded-xl bg-slate-800">&times;</button>
+            </div>
+            
+            <div id="modal-scores-list" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                <div class="text-slate-500 text-xs text-center py-6">Hali ballar mavjud emas...</div>
+            </div>
+
+            <button onclick="toggleScoresModal(false)" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3 rounded-2xl transition text-xs border border-slate-700 shadow-sm">
+                Yopish
+            </button>
+        </div>
+    </div>
+
+    <footer class="text-slate-500 text-[11px] text-center">
+        Ona Tili Pro Ultra • 100% Maxsus versiya janob uchun
+    </footer>
+
+    <script>
+        let score = 0;
+        let currentQuestionIndex = 0;
+        let activeQuestions = [];
+        let studentsList = []; 
+        let currentTopic = "";
+        let activeStudentIndex = 0;
+        let timerInterval = null;
+        let timeLeft = 15;
+
+        // Audio sintetizator (Tovush effektlari uchun)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'success') {
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'error') {
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.25);
+            } else if (type === 'click') {
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            }
+        }
+
+        const database = {
+            "e harfi": [
+                { question: "\"E\" harfi o'zbek alifbosida nechchanchi o'rinda turadi?", options: ["A) 7-o'rinda", "B) 5-o'rinda", "C) 8-o'rinda", "D) 6-o'rinda"], correct: 0 },
+                { question: "\"E\" harfi qanday unli tovushni ifodalaydi?", options: ["A) Old qator, lablanmagan unlini", "B) Orqa qator, lablangan unlini", "C) Faqat undosh tovushni", "D) Tor unlini"], correct: 0 },
+                { question: "So'z boshida \"e\" harfi kelganda ko'pincha qanday talaffuz qilinadi?", options: ["A) [ye] tarzida", "B) [i] tarzida", "C) [o] tarzida", "D) O'zgarmasdan"], correct: 0 },
+                { question: "Qaysi so'zda \"e\" harfi o'zgarmasdan [e] tovushi sifatida talaffuz qilinadi?", options: ["A) Ektor, ekran, epos", "B) Elka, erkin, elat", "C) Bog'bon, qalam", "D) O'rik, olcha"], correct: 0 },
+                { question: "O'zbek tilida \"e\" va \"é\" (aksentli) farqi qaysi imlo qoidasida muhim?", options: ["A) O'zlashma so'zlarning yozilishida", "B) Faqat qo'shma so'zlarda", "C) Fe'l zamonlarida", "D) Imlo qoidalarida ahamiyatsiz"], correct: 0 }
+            ],
+            "fonetika": [
+                { question: "O'zbek tilida nechta unli tovush mavjud?", options: ["A) 6 ta", "B) 24 ta", "C) 29 ta", "D) 32 ta"], correct: 0 },
+                { question: "O'zbek tilida nechta undosh tovush mavjud?", options: ["A) 24 ta", "B) 6 ta", "C) 29 ta", "D) 31 ta"], correct: 0 },
+                { question: "Lablanmagan unlilarni toping:", options: ["A) a, i, e, o‘", "B) o, u, o‘", "C) u, o", "D) barcha lablashgan"], correct: 0 },
+                { question: "Jarangsiz jufti yo'q sonor undoshlar qaysilar?", options: ["A) m, n, l, r", "B) p, t, k", "C) b, d, g", "D) s, z, sh"], correct: 0 },
+                { question: "Til orqa undoshlarini aniqlang:", options: ["A) k, g, ng", "B) p, b, m", "C) t, d, n", "D) s, z, l"], correct: 0 }
+            ],
+            "imlo": [
+                { question: "Qaysi qatordagi barcha so'zlar to'g'ri yozilgan?", options: ["A) Dublyaj, agentlik, byulleten", "B) Dubliyaj, ajentlik, byulletin", "C) Dublyaj, agenslik, bulleten", "D) Dublyaj, agentlik, byuletin"], correct: 0 },
+                { question: "Qaysi so'zda tovush tushishi hodisasi bor?", options: ["A) O'g'il -> O'g'lim", "B) Toshkent -> Toshkentga", "C) Bog' -> Bog'lar", "D) Qalam -> Qalamim"], correct: 0 },
+                { question: "To'g'ri yozilgan so'zni aniqlang:", options: ["A) Metropoliten", "B) Mitropoliten", "C) Metrapoliten", "D) Metropoltin"], correct: 0 },
+                { question: "Tutuq belgisi (') noto'g'ri qo'llanilgan so'zni toping:", options: ["A) Ta'bir", "B) Ma'no", "C) San'at", "D) Ba'zi"], correct: 3 },
+                { question: "Qaysi so'z qo'shib yoziladi?", options: ["A) Yerusti", "B) Temir yo'l", "C) Ochiq ko'ngil", "D) Oq uy"], correct: 0 }
+            ]
+        };
+
+        function speakText(text) {
+            const voiceSetting = document.getElementById('voice-setting').value;
+            if (voiceSetting === 'off' || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'uz-UZ';
+            utterance.rate = 1.05;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function setAiMessage(text, isHappy = false) {
+            const bubble = document.getElementById('ai-bubble');
+            const mouth = document.getElementById('ai-mouth');
+            bubble.innerText = text;
+            
+            mouth.classList.add('talking');
+            setTimeout(() => mouth.classList.remove('talking'), 1200);
+
+            if (isHappy) {
+                mouth.className = "w-5 h-2 bg-emerald-400 rounded-b-full mt-2 transition-all shadow-sm";
+            } else {
+                mouth.className = "w-4 h-1.5 bg-amber-400 rounded-full mt-2 transition-all";
+            }
+            speakText(text);
+        }
+
+        function aiGreet() {
+            const phrases = [
+                "100% quvvatdamiz, janob! Bugun kim g'olib bo'lar ekan?",
+                "Savollar juda qiziq, omad tilaymiz!",
+                "Men siz bilan faxrlanaman, janob!",
+                "Hamma narsa nazorat ostida!"
+            ];
+            setAiMessage(phrases[Math.floor(Math.random() * phrases.length)], true);
+            playSound('click');
+        }
+
+        function addStudent() {
+            const input = document.getElementById('student-name-input');
+            const name = input.value.trim();
+            if (!name) return;
+
+            studentsList.push({ name: name, score: 0 });
+            input.value = '';
+            renderStudentsList();
+            setAiMessage(`${name} ro'yxatga qo'shildi, janob!`, true);
+            playSound('click');
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') addStudent();
+        }
+
+        function removeStudent(index) {
+            studentsList.splice(index, 1);
+            renderStudentsList();
+            playSound('click');
+        }
+
+        function clearAllStudents() {
+            studentsList = [];
+            renderStudentsList();
+            setAiMessage("Ro'yxat tozalandi.");
+            playSound('click');
+        }
+
+        function renderStudentsList() {
+            const container = document.getElementById('students-list-container');
+            document.getElementById('student-count').innerText = studentsList.length;
+
+            if (studentsList.length === 0) {
+                container.innerHTML = '<span class="text-slate-500 text-xs italic py-2 px-1">Hali o\'quvchilar qo\'shilmadi...</span>';
+                return;
+            }
+
+            container.innerHTML = '';
+            studentsList.forEach((item, index) => {
+                const tag = document.createElement('div');
+                tag.className = "bg-slate-900 border border-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-xl flex items-center gap-2 shadow-sm animate-pop";
+                tag.innerHTML = `<span class="font-medium">${item.name}</span> <button onclick="removeStudent(${index})" class="text-rose-400 hover:text-rose-300 font-bold text-sm leading-none transition">&times;</button>`;
+                container.appendChild(tag);
+            });
+        }
+
+        function toggleScoresModal(show) {
+            const modal = document.getElementById('scores-modal');
+            if (show) {
+                updateModalScoresContent();
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+            playSound('click');
+        }
+
+        function updateModalScoresContent() {
+            const listContainer = document.getElementById('modal-scores-list');
+            if (studentsList.length === 0) {
+                listContainer.innerHTML = '<div class="text-slate-500 text-xs text-center py-6">O\'quvchilar mavjud emas...</div>';
+                return;
+            }
+
+            listContainer.innerHTML = '';
+            const sorted = [...studentsList].sort((a, b) => b.score - a.score);
+            const medals = ['🥇', '🥈', '🥉'];
+
+            sorted.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center bg-slate-950 border border-slate-800 px-3.5 py-3 rounded-xl text-xs shadow-inner";
+                const badge = medals[idx] || `${idx + 1}.`;
+                row.innerHTML = `<span class="font-semibold text-slate-200">${badge} ${item.name}</span> <span class="font-extrabold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">${item.score} ball</span>`;
+                listContainer.appendChild(row);
+            });
+        }
+
+        function hideAllScreens() {
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function goHome() {
+            hideAllScreens();
+            document.getElementById('setup-screen').classList.remove('hidden');
+            score = 0;
+            document.getElementById('score').innerText = score;
+            studentsList.forEach(s => s.score = 0);
+            renderStudentsList();
+            setAiMessage("Yangi o'yinga tayyormiz, janob!", true);
+            playSound('click');
+        }
+
+        function startQuiz() {
+            const topicInputElem = document.getElementById('topic-input');
+            const topicText = topicInputElem.value.trim().toLowerCase();
+
+            if (!topicText) {
+                alert("Iltimos, mavzuni kiriting, janob!");
+                return;
+            }
+            if (studentsList.length === 0) {
+                alert("Iltimos, kamida bitta o'quvchi qo'shing, janob!");
+                return;
+            }
+
+            currentTopic = topicInputElem.value.trim();
+            let foundKey = Object.keys(database).find(k => topicText.includes(k) || k.includes(topicText));
+            
+            if (foundKey) {
+                activeQuestions = [...database[foundKey]];
+            } else {
+                // Agar mavzu bazada bo'lmasa, AI o'zi avtomatik generatsiya qiladi (100% Pro imkoniyat)
+                activeQuestions = [
+                    { question: `"${currentTopic}" bo'yicha asosiy tushuncha qaysi javobda to'g'ri ko'rsatilgan?`, options: ["A) Asosiy nazariy qoidalar", "B) Faqat istisnolar", "C) Amaliy ahamiyatga ega emas", "D) Ilmiy farazlar"], correct: 0 },
+                    { question: `"${currentTopic}" mavzusining o'rganilish sababi nima?`, options: ["A) Chuqur bilim olish uchun", "B) Ahamiyatsiz", "C) Faqat yodlash uchun", "D) Kerak emas"], correct: 0 },
+                    { question: `Quyidagilardan qaysi biri "${currentTopic}" tushunchasiga mos keladi?`, options: ["A) Ilmiy asoslangan qoida", "B) Tasodifiy so'z", "C) Xato ma'lumot", "D) Topishmoq"], correct: 0 }
+                ];
+            }
+
+            hideAllScreens();
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById('score').innerText = score;
+            studentsList.forEach(s => s.score = 0);
+
+            setAiMessage(`"${currentTopic}" boshlandi. Omad yor bo'lsin!`, true);
+            loadQuestion();
+            playSound('success');
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= activeQuestions.length) {
+                showResults();
+                return;
+            }
+
+            const studentBox = document.getElementById('student-box');
+            const studentElem = document.getElementById('current-student');
+            const optionsContainer = document.getElementById('options-container');
+
+            optionsContainer.innerHTML = '<div class="text-center py-8 text-slate-500 text-xs italic">O\'quvchi barabandan tanlanmoqda...</div>';
+            document.getElementById('next-btn').classList.add('hidden');
+            studentBox.classList.add('animate-glow');
+            setAiMessage("Baraban aylanmoqda...");
+
+            let counter = 0;
+            let speed = 30;
+            let maxSteps = 15;
+
+            function runRoulette() {
+                const randomTempObj = studentsList[Math.floor(Math.random() * studentsList.length)];
+                studentElem.innerText = `🎲 ${randomTempObj.name}`;
+                counter++;
+
+                if (counter < maxSteps) {
+                    speed += 10;
+                    setTimeout(runRoulette, speed);
+                } else {
+                    const finalIndex = Math.floor(Math.random() * studentsList.length);
+                    activeStudentIndex = finalIndex;
+                    studentElem.innerText = `🎯 ${studentsList[finalIndex].name}`;
+                    studentBox.classList.remove('animate-glow');
+                    setAiMessage(`Navbat: ${studentsList[finalIndex].name}!`, true);
+                    renderQuestionContent();
+                }
+            }
+
+            runRoulette();
+        }
+
+        function renderQuestionContent() {
+            const q = activeQuestions[currentQuestionIndex];
+            document.getElementById('question-count').innerText = `Savol: ${currentQuestionIndex + 1}/${activeQuestions.length}`;
+            document.getElementById('quiz-category').innerText = currentTopic;
+            document.getElementById('question-text').innerText = q.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-800 p-3.5 rounded-2xl transition text-xs font-medium text-slate-200 shadow-sm active:scale-[0.99]";
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            const timerSetting = parseInt(document.getElementById('timer-setting').value);
+            const timerDisplay = document.getElementById('timer-display');
+            const timerBox = document.getElementById('timer-box');
+
+            if (timerSetting === 0) {
+                timerDisplay.innerText = "∞";
+                timerBox.classList.add('opacity-50');
+                return;
+            }
+
+            timerBox.classList.remove('opacity-50');
+            timeLeft = timerSetting;
+            timerDisplay.innerText = timeLeft + "s";
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft + "s";
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function handleTimeOut() {
+            const q = activeQuestions[currentQuestionIndex];
+            const buttons = document.getElementById('options-container').children;
+
+            for (let btn of buttons) btn.disabled = true;
+            buttons[q.correct].className = "w-full text-left bg-emerald-500/20 border border-emerald-500 text-emerald-300 p-3.5 rounded-2xl text-xs font-semibold shadow-lg shadow-emerald-500/10";
+            
+            setAiMessage("Vaqt tugadi, afsuski ball berilmadi...", false);
+            document.getElementById('next-btn').classList.remove('hidden');
+            playSound('error');
+        }
+
+        function selectOption(selectedIndex, selectedBtn) {
+            if (timerInterval) clearInterval(timerInterval);
+            const q = activeQuestions[currentQuestionIndex];
+            const buttons = document.getElementById('options-container').children;
+
+            for (let btn of buttons) btn.disabled = true;
+
+            if (selectedIndex === q.correct) {
+                selectedBtn.className = "w-full text-left bg-emerald-500/20 border border-emerald-500 text-emerald-300 p-3.5 rounded-2xl text-xs font-semibold animate-pop shadow-lg shadow-emerald-500/10";
+                score += 10;
+                studentsList[activeStudentIndex].score += 10;
+                setAiMessage("To'g'ri javob, barakalla! 🌟", true);
+                playSound('success');
+            } else {
+                selectedBtn.className = "w-full text-left bg-rose-500/20 border border-rose-500 text-rose-300 p-3.5 rounded-2xl text-xs font-semibold animate-pop shadow-lg shadow-rose-500/10";
+                buttons[q.correct].className = "w-full text-left bg-emerald-500/20 border border-emerald-500 text-emerald-300 p-3.5 rounded-2xl text-xs font-semibold shadow-lg shadow-emerald-500/10";
+                setAiMessage("Xato javob...", false);
+                playSound('error');
+            }
+
+            document.getElementById('score').innerText = score;
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+            playSound('click');
+        }
+
+        function showResults() {
+            hideAllScreens();
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            let sorted = [...studentsList].sort((a, b) => b.score - a.score);
+            if (sorted.length > 0) {
+                document.getElementById('winner-name-score').innerText = `${sorted[0].name} — ${sorted[0].score} ball`;
+            } else {
+                document.getElementById('winner-name-score').innerText = `Umumiy ball: ${score}`;
+            }
+
+            setAiMessage("Viktorina muvaffaqiyatli yakunlandi, tabriklayman!", true);
+            
+            // Konfetti effekti 100% zòr chiqishi uchun
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+            playSound('success');
+        }
+    </script>
+</body>
+</html>
