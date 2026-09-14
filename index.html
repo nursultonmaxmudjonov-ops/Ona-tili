@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ona Tili - Professional Viktorina Pro Ultra 100k</title>
+    <title>Ona Tili - Fonetik Hodisalar Viktorinasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/canvas-confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -26,10 +26,10 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 selection:bg-amber-500 selection:text-slate-950 relative overflow-x-hidden">
 
-    <!-- AI Yordamchi 3D Avatar (Jonli) -->
+    <!-- AI Yordamchi 3D Avatar -->
     <div id="ai-assistant" class="fixed bottom-6 right-6 z-40 flex items-end gap-3 avatar-float">
         <div id="ai-bubble" class="bg-slate-900/95 border border-amber-500/50 text-slate-100 text-xs px-4 py-3 rounded-2xl shadow-2xl max-w-[230px] backdrop-blur-xl relative font-medium leading-relaxed">
-            Salom, janob! Savollar soni ko'paytirildi. Boshlaymiz! 🎯
+            Salom, janob! Kengaytirilgan savollar bazasi tayyor! 🎯
         </div>
         
         <div class="w-16 h-16 bg-gradient-to-tr from-amber-600 via-yellow-500 to-amber-300 rounded-2xl p-0.5 shadow-2xl shadow-amber-500/40 border border-amber-200 flex flex-col items-center justify-center relative cursor-pointer group hover:scale-105 transition" onclick="aiGreet()">
@@ -57,7 +57,7 @@
                 <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl shadow-inner">⚡</div>
                 <div>
                     <h1 class="font-extrabold text-sm text-white tracking-wide">Viktorina Pro Ultra</h1>
-                    <p class="text-[10px] text-amber-400 font-semibold tracking-wider uppercase">Kengaytirilgan Baza</p>
+                    <p class="text-[10px] text-amber-400 font-semibold tracking-wider uppercase">Mavzu: Fonetik Hodisalar</p>
                 </div>
             </div>
             
@@ -72,10 +72,11 @@
             </div>
         </div>
 
+        <!-- Sozlamalar Ekrani -->
         <div id="setup-screen" class="animate-pop space-y-4">
-            <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1.5">📌 O'tiladigan yoki so'raladigan mavzu:</label>
-                <input type="text" id="topic-input" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner" placeholder="Masalan: Fonetika, Imlo, E harfi...">
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 text-xs text-slate-300 space-y-1">
+                <div class="font-bold text-amber-400 text-sm mb-1">📖 Tanlangan mavzu: Fonetik Hodisalar</div>
+                <p>Tovush tushishi, ortishi, almashishi, assimilyatsiya va dissimilyatsiya qoidalariga oid kengaytirilgan testlar to'plami.</p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -88,12 +89,21 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">🔊 Ovozli yordam:</label>
-                    <select id="voice-setting" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner">
-                        <option value="on">Yoqilgan (Ovozli)</option>
-                        <option value="off">O'chirilgan</option>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">📊 Savollar soni:</label>
+                    <select id="question-count-setting" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner">
+                        <option value="10">10 ta savol</option>
+                        <option value="30">30 ta savol</option>
+                        <option value="50">50 ta savol</option>
                     </select>
                 </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">🔊 Ovozli yordam:</label>
+                <select id="voice-setting" class="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-slate-100 focus:outline-none focus:border-amber-500 transition shadow-inner">
+                    <option value="on">Yoqilgan (Ovozli)</option>
+                    <option value="off">O'chirilgan</option>
+                </select>
             </div>
 
             <div>
@@ -119,6 +129,7 @@
             </button>
         </div>
 
+        <!-- O'yin Ekrani -->
         <div id="quiz-screen" class="hidden animate-pop space-y-4">
             <div class="flex gap-3">
                 <div id="student-box" class="flex-1 bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-center transition-all duration-300 shadow-inner">
@@ -133,7 +144,7 @@
 
             <div class="flex justify-between items-center text-xs text-slate-400 bg-slate-950 px-3.5 py-2.5 rounded-xl border border-slate-800">
                 <span id="question-count" class="font-bold text-slate-200">Savol: 1/10</span>
-                <span id="quiz-category" class="bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-lg font-semibold border border-amber-500/20">Mavzu</span>
+                <span class="bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-lg font-semibold border border-amber-500/20">Fonetik Hodisalar</span>
             </div>
             
             <h3 id="question-text" class="text-sm font-semibold min-h-[60px] leading-relaxed text-slate-100 bg-slate-950/40 p-3.5 rounded-2xl border border-slate-800/80">Savol matni...</h3>
@@ -145,10 +156,11 @@
             </button>
         </div>
 
+        <!-- Natija Ekrani -->
         <div id="result-screen" class="hidden text-center py-6 animate-pop space-y-4">
             <div class="text-6xl mb-1 animate-bounce">🏆</div>
             <h2 class="text-xl font-extrabold text-white">Tabriklayman, janob!</h2>
-            <p class="text-xs text-slate-400">Barcha savollar yakunlandi</p>
+            <p class="text-xs text-slate-400">Barcha savollar muvaffaqiyatli yakunlandi</p>
             
             <div class="bg-gradient-to-r from-amber-500/20 via-indigo-500/20 to-amber-500/20 border border-amber-500/40 rounded-2xl p-4 max-w-xs mx-auto shadow-inner">
                 <div class="text-[11px] text-amber-300 font-bold mb-1">🥇 Eng yuqori natija egasi</div>
@@ -162,6 +174,7 @@
 
     </div>
 
+    <!-- Reyting Modali -->
     <div id="scores-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-pop">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl relative space-y-4">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -188,7 +201,6 @@
         let currentQuestionIndex = 0;
         let activeQuestions = [];
         let studentsList = []; 
-        let currentTopic = "";
         let activeStudentIndex = 0;
         let timerInterval = null;
         let timeLeft = 15;
@@ -224,44 +236,59 @@
             }
         }
 
-        const database = {
-            "e harfi": [
-                { question: "\"E\" harfi o'zbek alifbosida nechchanchi o'rinda turadi?", options: ["A) 7-o'rinda", "B) 5-o'rinda", "C) 8-o'rinda", "D) 6-o'rinda"], correct: 0 },
-                { question: "\"E\" harfi qanday unli tovushni ifodalaydi?", options: ["A) Old qator, lablanmagan unlini", "B) Orqa qator, lablangan unlini", "C) Faqat undosh tovushni", "D) Tor unlini"], correct: 0 },
-                { question: "So'z boshida \"e\" harfi kelganda ko'pincha qanday talaffuz qilinadi?", options: ["A) [ye] tarzida", "B) [i] tarzida", "C) [o] tarzida", "D) O'zgarmasdan"], correct: 0 },
-                { question: "Qaysi so'zda \"e\" harfi o'zgarmasdan [e] tovushi sifatida talaffuz qilinadi?", options: ["A) Ektor, ekran, epos", "B) Elka, erkin, elat", "C) Bog'bon, qalam", "D) O'rik, olcha"], correct: 0 },
-                { question: "O'zbek tilida \"e\" va \"é\" (aksentli) farqi qaysi imlo qoidasida muhim?", options: ["A) O'zlashma so'zlarning yozilishida", "B) Faqat qo'shma so'zlarda", "C) Fe'l zamonlarida", "D) Imlo qoidalarida ahamiyatsiz"], correct: 0 },
-                { question: "Qaysi so'z oxirida \"e\" harfi keladi?", options: ["A) Ko'cha", "B) Qishloq", "C) Tosh", "D) Daryo"], correct: 0 },
-                { question: "\"Eshik\" so'zi qaysi harf bilan boshlanadi?", options: ["A) E", "B) A", "C) O", "D) I"], correct: 0 },
-                { question: "O'zbek tilida \"e\" harfi necha xil vazifani bajarishi mumkin?", options: ["A) Tovush va harf sifatida ikkalasini", "B) Faqat undosh", "C) Faqat qo'shimcha", "D) Hech qanday"], correct: 0 },
-                { question: "Quyidagilardan qaysi biri \"e\" harfi bilan boshlanmaydi?", options: ["A) Kitob", "B) Eler", "C) Elchi", "D) Erkin"], correct: 0 },
-                { question: "Alifboda \"e\" harfidan oldin keladigan harfni toping:", options: ["A) D", "B) F", "C) G", "D) B"], correct: 0 }
-            ],
-            "fonetika": [
-                { question: "O'zbek tilida nechta unli tovush mavjud?", options: ["A) 6 ta", "B) 24 ta", "C) 29 ta", "D) 32 ta"], correct: 0 },
-                { question: "O'zbek tilida nechta undosh tovush mavjud?", options: ["A) 24 ta", "B) 6 ta", "C) 29 ta", "D) 31 ta"], correct: 0 },
-                { question: "Lablanmagan unlilarni toping:", options: ["A) a, i, e, o‘", "B) o, u, o‘", "C) u, o", "D) barcha lablashgan"], correct: 0 },
-                { question: "Jarangsiz jufti yo'q sonor undoshlar qaysilar?", options: ["A) m, n, l, r", "B) p, t, k", "C) b, d, g", "D) s, z, sh"], correct: 0 },
-                { question: "Til orqa undoshlarini aniqlang:", options: ["A) k, g, ng", "B) p, b, m", "C) t, d, n", "D) s, z, l"], correct: 0 },
-                { question: "Portlovchi undoshlarni toping:", options: ["A) p, b, t, d", "B) s, z, sh, zh", "C) m, n, ng", "D) l, r"], correct: 0 },
-                { question: "Sirg'aluvchi undoshlarni ko'rsating:", options: ["A) s, z, sh, f", "B) p, t, k", "C) b, d, g", "D) m, n"], correct: 0 },
-                { question: "Inchik unlilar qaysilar?", options: ["A) i, e", "B) a, o", "C) u, o'", "D) barcha unlilar"], correct: 0 },
-                { question: "Qator unlilariga ko'ra unlilar qanday turlarga bo'linadi?", options: ["A) Old va orqa qator unlilari", "B) Katta va kichik", "C) Baland va past", "D) Qattiq va yumshoq"], correct: 0 },
-                { question: "Tovushlar va harflarni o'rganadigan tilshunoslik bo'limi nima deyiladi?", options: ["A) Fonetika", "B) Leksikologiya", "C) Sintaksis", "D) Etimologiya"], correct: 0 }
-            ],
-            "imlo": [
-                { question: "Qaysi qatordagi barcha so'zlar to'g'ri yozilgan?", options: ["A) Dublyaj, agentlik, byulleten", "B) Dubliyaj, ajentlik, byulletin", "C) Dublyaj, agenslik, bulleten", "D) Dublyaj, agentlik, byuletin"], correct: 0 },
-                { question: "Qaysi so'zda tovush tushishi hodisasi bor?", options: ["A) O'g'il -> O'g'lim", "B) Toshkent -> Toshkentga", "C) Bog' -> Bog'lar", "D) Qalam -> Qalamim"], correct: 0 },
-                { question: "To'g'ri yozilgan so'zni aniqlang:", options: ["A) Metropoliten", "B) Mitropoliten", "C) Metrapoliten", "D) Metropoltin"], correct: 0 },
-                { question: "Tutuq belgisi (') noto'g'ri qo'llanilgan so'zni toping:", options: ["A) Ta'bir", "B) Ma'no", "C) San'at", "D) Ba'zi"], correct: 3 },
-                { question: "Qaysi so'z qo'shib yoziladi?", options: ["A) Yerusti", "B) Temir yo'l", "C) Ochiq ko'ngil", "D) Oq uy"], correct: 0 },
-                { question: "Imlo qoidalariga rioya qilishni o'rgatuvchi fan tarmog'i nima deb ataladi?", options: ["A) Orfografiya", "B) Orfoepiya", "C) Punktuatsiya", "D) Leksika"], correct: 0 },
-                { question: "Qaysi so'z ajratib yoziladi?", options: ["A) Har bir", "B) Harakat", "C) Harxil", "D) Harkun"], correct: 0 },
-                { question: "Bosh harflar imlosiga oid to'g'ri qatorni toping:", options: ["A) Toshkent shahri", "B) toshkent Shahri", "C) toshkent shahri", "D) Toshkent Shahri"], correct: 0 },
-                { question: "Qaysi so'z oxirida -lar ko'plik qo'shimchasi to'g'ri qo'shilgan?", options: ["A) Kitoblar", "B) Kitoblaralar", "C) Kitobni", "D) Kitobda"], correct: 0 },
-                { question: "Imlo xatosi mavjud bo'lgan so'zni toping:", options: ["A) Maktab", "B) Daftor", "C) Qalam", "D) Kitob"], correct: 1 }
-            ]
-        };
+        // Kengaytirilgan 50 talik Fonetik hodisalar savollar bazasi
+        const fonetikHodisalarBazasi = [
+            { question: "\"O'g'il\" so'ziga \"-im\" qo'shimchasi qo'shilganda \"o'g'lim\" shakliga o'zgarishi qaysi fonetik hodisaga misol bo'ladi?", options: ["A) Tovush tushishi", "B) Tovush ortishi", "C) Tovush almashishi", "D) Assimilyatsiya"], correct: 0 },
+            { question: "\"Burun\" so'ziga \"-im\" qo'shimchasi qo'shilganda \"burnim\" bo'lishi qaysi hodisa?", options: ["A) Tovush tushishi", "B) Tovush ortishi", "C) Tonal o'zgarish", "D) Akcent"], correct: 0 },
+            { question: "Qaysi so'zda tovush ortishi (tovush qo'shilishi) hodisasi mavjud?", options: ["A) Dori -> Dorixona", "B) Qishloq -> Qishloqda", "C) Bog' -> Bog'lar", "D) O'tin -> O'tinchi"], correct: 0 },
+            { question: "\"Besh\" so'ziga \"-ov\" qo'shilganda \"beshovi\" bo'lib aytilishi qaysi hodisaga kiradi?", options: ["A) Tovush ortishi", "B) Tovush tushishi", "C) Dudaklanish", "D) Ochilish"], correct: 0 },
+            { question: "So'z oxiridagi jarangsiz undoshga unli bilan boshlanuvchi qo'shimcha qo'shilganda, jarangsiz undosh jarangliga o'zgarishi qanday ataladi?", options: ["A) Jarangsizlanish", "B) Jurnalistika", "C) Jaranglilashish (assimilyatsiya)", "D) Dissimilyatsiya"], correct: 2 },
+            { question: "\"Tuz\" so'ziga \"-ga\" qo'shilganda \"tuzga\" emas, \"tuska\" deb talaffuz qilinishi qaysi hodisa?", options: ["A) Jarangsizlashish (assimilyatsiya)", "B) Tovush tushishi", "C) Tovush almashishi", "D) Orttirma"], correct: 0 },
+            { question: "\"Ko'z\" va \"ur\" so'zlari qo'shilib boshqa so'z yasalishida tovushlarning o'zgarishi qaysi guruhga kiradi?", options: ["A) Fonetik o'zgarishlar", "B) Leksik qoidalar", "C) Sintaktik birikma", "D) Morfemik xato"], correct: 0 },
+            { question: "Qaysi so'zda unlilarning moslashuvi (assimilyatsiyasi) kuzatiladi?", options: ["A) Burun > Burni", "B) Tashqari > Tashqarı", "C) Keldi > Kelyapti", "D) Ishchi > Ishchilar"], correct: 0 },
+            { question: "Ikki bir xil undosh yonma-yon kelganda ulardan birining tushib qolishi yoki o'zgarishi qanday hodisa?", options: ["A) Dissimilyatsiya (turlanish)", "B) Assimilyatsiya", "C) Eliziya", "D) Metateza"], correct: 0 },
+            { question: "Tovushlarning o'rin almashishi (masalan: \"tuproq\" o'rniga ba'zan og'zaki nutqda boshqacha talaffuz) qaysi hodisaga misol bo'ladi?", options: ["A) Metateza (o'rin almashish)", "B) Assimilyatsiya", "C) Reduksiya", "D) Sinerez"], correct: 0 },
+            { question: "\"O'rin\" so'ziga \"-a\" qo'shimchasi qo'shilganda \"o'yna\" yoki \"o'rinla\" emas, \"o'rni\" shaklida qisqarishi qaysi hodisa?", options: ["A) Tovush tushishi", "B) Tovush ortishi", "C) Assimilyatsiya", "D) Dudaklanish"], correct: 0 },
+            { question: "\"Qorin\" so'ziga \"-im\" qo'shilganda \"qornim\" bo'lishi qaysi hodisaga kiradi?", options: ["A) Unlilar tushishi", "B) Undosh ortishi", "C) Jumlani qisqartirish", "D) Affiksatsiya"], correct: 0 },
+            { question: "Qaysi so'zda \"h\" tovushining talaffuzda tushib qolishi kuzatiladi?", options: ["A) Shahar > Shar", "B) Kitob > Kitoblar", "C) Maktab > Maktabga", "D) Daftar > Daftarlar"], correct: 0 },
+            { question: "\"Baland\" so'zining oxiridagi \"d\" harfi talaffuzda ko'pincha tushib qolishi qanday hodisa?", options: ["A) Undosh tushishi", "B) Tovush ortishi", "C) Unlilar uyg'unligi", "D) Lablanish"], correct: 0 },
+            { question: "\"Yurak\" so'ziga \"-im\" qo'shilganda \"yuragim\" bo'lishi qaysi qoidaga asoslanadi?", options: ["A) Jarangsiz undoshning jaranglilashishi", "B) Tovush tushishi", "C) Unli cho'zilishi", "D) Dissimilyatsiya"], correct: 0 },
+            { question: "So'z boshida \"b\" tovushining \"m\" ga aylanishi yoki aksincha holatlar qaysi til hodisasiga xos?", options: ["A) Nasallashish (burunlashish)", "B) Cho'zilish", "C) Ochilish", "D) Vokallashuv"], correct: 0 },
+            { question: "\"Nonvoy\" so'zining talaffuzida \"m-voy\" (momvoy) kabi aytilishi qaysi hodisa ta'sirida yuzaga keladi?", options: ["A) Assimilyatsiya (moslashish)", "B) Dissimilyatsiya", "C) Metateza", "D) Eliziya"], correct: 0 },
+            { question: "O'zbek tilida so'z oxirida jarangli undoshlarning jarangsizlanib talaffuz qilinishi qanday hodisa?", options: ["A) Oxirgi jarangsizlanish", "B) Unlilar sintezi", "C) Intonatsiya", "D) urg'u ko'chishi"], correct: 0 },
+            { question: "\"Sog'lom\" so'zining talaffuzidagi o'zgarishlar qaysi bo'limga tegishli?", options: ["A) Fонетика", "B) Leksikologiya", "C) Sintaksis", "D) Morfologiya"], correct: 0 },
+            { question: "Nutq jarayonida so'zlarning bir-biriga ta'sir qilib o'zgarishi umumiy qilib nima deyiladi?", options: ["A) Fonetik hodisalar", "B) Leksik ma'no", "C) So'z yasalishi", "D) Grammatik qoida"], correct: 0 },
+            { question: "\"Pichoq\" so'ziga \"-im\" qo'shilganda \"pichog'im\" bo'lishi qaysi hodisa?", options: ["A) Jaranglilashish (k > g')", "B) Tovush tushishi", "C) Tovush qo'shilishi", "D) Metateza"], correct: 0 },
+            { question: "\"Tuxum\" so'zining oxirgi undoshi talaffuzida qanday o'zgarishga uchrashi mumkin?", options: ["A) Jarangsizlanish", "B) Cho'zilish", "C) Tushib qolish", "D) Ikki marta ortish"], correct: 0 },
+            { question: "\"Gul\" va \"iston\" so'zlarining qo'shilishidan \"guliston\" so'zi hosil bo'lishida qanday fonetik o'zgarish bor?", options: ["A) Tovush ortishi yoki qo'shilishi", "B) Tovush tushishi", "C) O'rin almashish", "D) Hech qanday o'zgarish yo'q"], correct: 0 },
+            { question: "\"Aka\" so'ziga \"-ajon\" qo'shilganda qisqarish yoki o'zgarish bo'lsa, bu nima deb ataladi?", options: ["A) Og'zaki nutq fonetik hodisasi", "B) Xato yozuv", "C) Orfografik qoida", "D) Leksik norma"], correct: 0 },
+            { question: "\"Etik\" so'ziga \"-im\" qo'shilganda \"etigim\" bo'lishi qaysi tovush o'zgarishi?", options: ["A) t > g' (jaranglilashish)", "B) t tushishi", "C) k qo'shilishi", "D) unli almashishi"], correct: 0 },
+            { question: "So'z oxiridagi \"q\" tovushiga unli qo'shilganda \"g'\" ga aylanishi qanday hodisa?", options: ["A) Jaranglilashish", "B) Jarangsizlanish", "C) Dissimilyatsiya", "D) Reduksiya"], correct: 0 },
+            { question: "\"Tarvuz\" so'zi talaffuzida oxiri qanday eshitiladi?", options: ["A) tarvus", "B) tarvuz", "C) tarvuzh", "D) tarv"], correct: 0 },
+            { question: "Qaysi qatorda faqat fonetik hodisalar keltirilgan?", options: ["A) Tushish, ortish, almashish", "B) Ot, sifat, fe'l", "C) Eg kesim, aniqlovchi", "D) Qo'shimcha, o'zak, asos"], correct: 0 },
+            { question: "\"Olti\" va \"ov\" so'z birikmasining qo'shilib aytilishi:", options: ["A) Oltovi (tovush ortishi/o'zgarishi)", "B) Oltiov", "C) Oltov", "D) Oltin"], correct: 0 },
+            { question: "\"Yetti\" so'ziga \"-ov\" qo'shilganda nima hosil bo'ladi?", options: ["A) Yettovi", "B) Yettov", "C) Yettinchi", "D) Yettita"], correct: 0 },
+            { question: "\"Beshik\" so'zining \"-im\" bilan qo'shilishi:", options: ["A) Beshigim", "B) Beshikim", "C) Beshig", "D) Beshkim"], correct: 0 },
+            { question: "\"O'q\" so'ziga \"-uvchi\" qo'shilganda \"o'quvchi\" bo'lishi qaysi hodisaga misol?", options: ["A) Q tovushining g' ga o'tishi va lablanish", "B) Tovush tushishi", "C) Undosh ortishi", "D) Dissimilyatsiya"], correct: 0 },
+            { question: "\"Ko'prik\" so'ziga unli bilan boshlanuvchi qo'shilganda:", options: ["A) Ko'prigi", "B) Ko'priki", "C) Ko'prikim", "D) Ko'prikga"], correct: 0 },
+            { question: "\"Yaxshi\" so'zining talaffuzidagi o'ziga xosliklar qaysi sohaga tegishli?", options: ["A) Fonetika", "B) Sintaksis", "C) Morfologiya", "D) Etimologiya"], correct: 0 },
+            { question: "Unlilarning o'zaro moslashuvi qanday nomlanadi?", options: ["A) Vokal assimilyatsiya", "B) Konsonantizm", "C) Akcent", "D) Intonatsiya"], correct: 0 },
+            { question: "Undoshlarning o'zaro moslashuvi nima deb ataladi?", options: ["A) Konsonant assimilyatsiya", "B) Vokallashuv", "C) Eliziya", "D) Metateza"], correct: 0 },
+            { question: "\"Inson\" so'zining talaffuzi va yozilishi:", options: ["A) Aynan bir xil", "B) Farq qiladi", "C) Faqat og'zaki o'zgaradi", "D) Assimilyatsiyaga uchraydi"], correct: 0 },
+            { question: "Qaysi qatorda tovush tushishiga misol bor?", options: ["A) O'g'lim", "B) Bog'lar", "C) Toshkentga", "D) Ishchilar"], correct: 0 },
+            { question: "Qaysi qatorda tovush ortishiga misol bor?", options: ["A) Dorixona", "B) Burun", "C) Qorin", "D) O'g'il"], correct: 0 },
+            { question: "So'zda urg'uning o'rni o'zgarishi bilan ma'no o'zgarishi qanday hodisa?", options: ["A) Fonetik-akcentologik hodisa", "B) Leksik xato", "C) Sintaktik qoida", "D) Morfemik tahlil"], correct: 0 },
+            { question: "\"Bog'\" so'ziga \"-lar\" qo'shilganda:", options: ["A) Bog'lar (o'zgarishsiz)", "B) Boklar", "C) Bohlar", "D) Bolar"], correct: 0 },
+            { question: "\"Tog'\" so'ziga \"-ga\" qo'shilganda qanday talaffuz qilinadi?", options: ["A) Tog'ka", "B) Tog'ga", "C) Tokka", "D) Tohga"], correct: 0 },
+            { question: "\"Qishloq\" so'ziga \"-ga\" qo'shilganda:", options: ["A) Qishloqqa", "B) Qishloqga", "C) Qishlog'ga", "D) Qishlokga"], correct: 0 },
+            { question: "\"Maktab\" so'zining oxirgi harfi talaffuzda:", options: ["A) p", "B) b", "C) m", "D) v"], correct: 0 },
+            { question: "\"Kitob\" so'ziga \"-im\" qo'shilganda:", options: ["A) Kitobim", "B) Kitopim", "C) Kidobim", "D) Kitobm"], correct: 0 },
+            { question: "Tilshunoslikning tovushlarni o'rganuvchi bo'limi:", options: ["A) Fonetika", "B) Leksikologiya", "C) Grammatika", "D) Stilistika"], correct: 0 },
+            { question: "Nutq tovushlarining hosil bo'lish jarayoni nima deyiladi?",onske: ["A) Artifikatsiya / Artikulatsiya", "B) Intonatsiya", "C) Fonatsiya", "D) Akustika"], correct: 0 },
+            { question: "O'zbek tilida nechta unli tovush bor?", options: ["A) 6 ta", "B) 24 ta", "C) 28 ta", "D) 32 ta"], correct: 0 },
+            { question: "O'zbek tilida nechta undosh tovush bor?", options: ["A) 24 ta", "B) 6 ta", "C) 30 ta", "D) 32 ta"], correct: 0 },
+            { question: "Fonetik hodisalar asosan qaysi nutqda yaqqol namoyon bo'ladi?", options: ["A) Og'zaki nutqda", "B) Yozma nutqda", "C) Faqat kitobiy matnda", "D) Rasmiy hujjatlarda"], correct: 0 }
+        ];
 
         function speakText(text) {
             const voiceSetting = document.getElementById('voice-setting').value;
@@ -291,10 +318,9 @@
 
         function aiGreet() {
             const phrases = [
-                "Baza to'liq quvvatda ishlayapti, janob!",
-                "Savollar ko'paytirildi, marhamat boshlaymiz!",
-                "Ajoyib natijalar kutyapmiz!",
-                "Hammasi nazorat ostida!"
+                "Fonetik hodisalar bo'yicha tayyormiz, janob!",
+                "Eng zo'r natijani ko'rsatamiz!",
+                "Omad tilayman!"
             ];
             setAiMessage(phrases[Math.floor(Math.random() * phrases.length)], true);
             playSound('click');
@@ -397,30 +423,16 @@
         }
 
         function startQuiz() {
-            const topicInputElem = document.getElementById('topic-input');
-            const topicText = topicInputElem.value.trim().toLowerCase();
-
-            if (!topicText) {
-                alert("Iltimos, mavzuni kiriting, janob!");
-                return;
-            }
             if (studentsList.length === 0) {
                 alert("Iltimos, kamida bitta o'quvchi qo'shing, janob!");
                 return;
             }
 
-            currentTopic = topicInputElem.value.trim();
-            let foundKey = Object.keys(database).find(k => topicText.includes(k) || k.includes(topicText));
+            const countSetting = parseInt(document.getElementById('question-count-setting').value);
             
-            if (foundKey) {
-                activeQuestions = [...database[foundKey]];
-            } else {
-                activeQuestions = [
-                    { question: `"${currentTopic}" bo'yicha asosiy tushuncha qaysi javobda to'g'ri ko'rsatilgan?`, options: ["A) Asosiy nazariy qoidalar", "B) Faqat istisnolar", "C) Amaliy ahamiyatga ega emas", "D) Ilmiy farazlar"], correct: 0 },
-                    { question: `"${currentTopic}" mavzusining o'rganilish sababi nima?`, options: ["A) Chuqur bilim olish uchun", "B) Ahamiyatsiz", "C) Faqat yodlash uchun", "D) Kerak emas"], correct: 0 },
-                    { question: `Quyidagilardan qaysi biri "${currentTopic}" tushunchasiga mos keladi?`, options: ["A) Ilmiy asoslangan qoida", "B) Tasodifiy so'z", "C) Xato ma'lumot", "D) Topishmoq"], correct: 0 }
-                ];
-            }
+            // Bazadan tanlangan miqdorda savolni tasodifiy tanlab olish
+            let shuffled = [...fonetikHodisalarBazasi].sort(() => 0.5 - Math.random());
+            activeQuestions = shuffled.slice(0, Math.min(countSetting, shuffled.length));
 
             hideAllScreens();
             document.getElementById('quiz-screen').classList.remove('hidden');
@@ -429,7 +441,7 @@
             document.getElementById('score').innerText = score;
             studentsList.forEach(s => s.score = 0);
 
-            setAiMessage(`"${currentTopic}" boshlandi. Omad yor bo'lsin!`, true);
+            setAiMessage("Fonetik hodisalar viktorinasi boshlandi. Omad!", true);
             loadQuestion();
             playSound('success');
         }
@@ -477,7 +489,6 @@
         function renderQuestionContent() {
             const q = activeQuestions[currentQuestionIndex];
             document.getElementById('question-count').innerText = `Savol: ${currentQuestionIndex + 1}/${activeQuestions.length}`;
-            document.getElementById('quiz-category').innerText = currentTopic;
             document.getElementById('question-text').innerText = q.question;
 
             const optionsContainer = document.getElementById('options-container');
